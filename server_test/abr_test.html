@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div>
+    <input id="init-btn" class="btn btn-default" type="button" value="Init">
+    <p id="init-text">
+    </p>
+</div>
+<div>
+    <input id="exec-btn" class="btn btn-default" type="button" value="Exec">
+    <div class="input-group">
+        <input id="exec-input" type="text" class="form-control" placeholder="instance id">
+    </div>
+    <p id="exec-text">
+    </p>
+</div>
+<div>
+    <input id="clear-btn" class="btn btn-default" type="button" value="Exec">
+    <div class="input-group">
+        <input id="clear-input" type="text" class="form-control" placeholder="instance id">
+    </div>
+    <p id="clear-text">
+    </p>
+</div>
+
+<script type="text/javascript">
+    $("#init-btn").click(function(){
+        var config = {
+            bitrate_count:4,
+            bitrate_list:[100,200,300,400]
+        }
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:3001/abr_init/abrid",
+            async:true,
+            dataType:"jsonp",
+            data:{
+                data:JSON.stringify(config)
+            },
+            success:function(result){
+            console.log(result);
+                $("#init-text").text(result);
+            }
+        })
+    });
+
+    $("#exec-btn").click(function(){
+        var state = {
+            bitrate_count:4,
+            bitrate_list:[100,200,300,400]
+        }
+        var instance_id = $("#exec-input").val();
+        console.log('iiiii:'+instance_id);
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:3001/abr_request",
+            async:true,
+            dataType:"jsonp",
+            data:{
+                instance_id:instance_id,
+                state_message:JSON.stringify(state)
+            },
+            success:function(result){
+            console.log(result);
+                $("#exec-text").text(result);
+            }
+        })
+    });
+
+    $("#clear-btn").click(function(){
+        var instance_id = $("#clear-input").val();
+        console.log('iiiii:'+instance_id);
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:3001/abr_clear",
+            async:true,
+            dataType:"jsonp",
+            data:{
+                instance_id:instance_id,
+            },
+            success:function(result){
+            console.log(result);
+                $("#clear-text").text(result);
+            }
+        })
+    });
+</script>
+</body>
+</html>

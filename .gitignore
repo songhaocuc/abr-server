@@ -69,3 +69,5 @@ public/media/live
 public/media/vod
 public/image/thumbnail
 dist/
+__pycache__/
+server_test/node_modules
